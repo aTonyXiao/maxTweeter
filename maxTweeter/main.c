@@ -25,7 +25,6 @@ char* getfield(char* line, int num) { // get the content from Single line
     return NULL;
 }
 
-
 int main(int argc, const char * argv[]) {
     int* count = (int *)calloc(MAX_LINE_NUM, sizeof(int));
     char** user = (char **)malloc(MAX_LINE_NUM * sizeof(char*));
@@ -93,6 +92,7 @@ int main(int argc, const char * argv[]) {
             if(count[j] == 0)
                 break;
         }
+        
         if(count[idx] == -1)
             continue;
         
