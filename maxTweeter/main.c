@@ -29,17 +29,21 @@ char* getfield(char* line, int num) { // get the content from Single line
 int findNamePos(char* line) { // find the position of name
     int idx = 0;
     
-    for(char *tok = strtok(line, ","); tok && *tok; tok = strtok(NULL, ",\n"), idx++){
-        if(strcmp(tok, "\"name\"") == 0)
+    for(char *tok = strtok(line, ","); tok && *tok; tok = strtok(NULL, ",\n"), idx++) { // find the name pos
+        if(strcmp(tok, "\"name\"") == 0 || strcmp(tok, "name") == 0) {// check both name and "name"
             return idx;
+            
+        }else if(strcmp(tok, "\"name\"\r") == 0 || strcmp(tok, "\"name\"\n") == 0
+                || strcmp(tok, "name\r") == 0 || strcmp(tok, "name\r") == 0) { // check if the name is at the end of line
+            return idx;
+        }
     }
     return -1;
 }
 
-
 int main(int argc, const char * argv[]) {
     if(argc != 2) { // invalid input
-        printf("Invalid Input Format\n");
+        printf("Invalid Input Format1\n");
         return -1;
     }
     
@@ -49,7 +53,7 @@ int main(int argc, const char * argv[]) {
     fileStream = fopen(argv[1], "r"); // open file descriptor
     
     if(fileStream == NULL) { // cannot open file
-        printf("Invalid Input Format\n");
+        printf("Invalid Input Format2\n");
         fclose(fileStream); // close file
         return -1;
     }
@@ -71,7 +75,7 @@ int main(int argc, const char * argv[]) {
     free(tmp);
     
     if(namePos == -1) { // no name pos found
-        printf("Invalid Input Format\n");
+        printf("Invalid Input Format3\n");
         
         free(count);
         
@@ -85,11 +89,14 @@ int main(int argc, const char * argv[]) {
     
     while (fgets(line, MAX_LINE_SIZE, fileStream)) { // parsing each line
         char* tmp = strdup(line);
-        char* name = getfield(tmp, namePos);
+        char* nameField = getfield(tmp, namePos);
+//        char* name = getfield(tmp, namePos);
+        char name[51];
         lineNUM ++;
+        
     
-        if(name == NULL || strlen(name) > MAX_NAME_LEN) { // no username or name length > 50
-            printf("Invalid Input Format\n");
+        if(nameField == NULL || strlen(nameField) > MAX_NAME_LEN) { // no username found or name length > 50
+            printf("Invalid Input Format4\n");
             free(tmp);
             free(count);
             
@@ -99,6 +106,13 @@ int main(int argc, const char * argv[]) {
             free(user);
             fclose(fileStream); // close file
             return -1;
+        }
+        
+        if(nameField[strlen(nameField) - 1] == '\n' || nameField[strlen(nameField) - 1] == '\r') { // remove the newline char
+            strncpy(name, nameField, strlen(nameField) - 1);
+            name[strlen(name)] = '\0';
+        }else{
+            strcpy(name, nameField);
         }
         
         int idx = 0;
@@ -146,6 +160,3 @@ int main(int argc, const char * argv[]) {
     fclose(fileStream); // close file
     return 0;
 }
-
-
-
