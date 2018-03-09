@@ -12,7 +12,7 @@
 #include <ctype.h>
 
 #define MAX_LINE_NUM 20000 // Maxi number of line indicate in prompt
-#define MAX_NAME_LEN 50 // Twitter allowed maximum username is 50 character
+#define MAX_NAME_LEN 1024 // Twitter allowed maximum username is 50 character
 #define MAX_LINE_SIZE 1024 // MAX size of a line
 #define NUM_USER_PRINT 10 // TOP 10 need to print
 
@@ -43,7 +43,7 @@ int findNamePos(char* line) { // find the position of name
 
 int main(int argc, const char * argv[]) {
     if(argc != 2) { // invalid input
-        printf("Invalid Input Format1\n");
+        printf("Invalid Input Format\n");
         return -1;
     }
     
@@ -53,7 +53,7 @@ int main(int argc, const char * argv[]) {
     fileStream = fopen(argv[1], "r"); // open file descriptor
     
     if(fileStream == NULL) { // cannot open file
-        printf("Invalid Input Format2\n");
+        printf("Invalid Input Format\n");
         fclose(fileStream); // close file
         return -1;
     }
@@ -75,7 +75,7 @@ int main(int argc, const char * argv[]) {
     free(tmp);
     
     if(namePos == -1) { // no name pos found
-        printf("Invalid Input Format3\n");
+        printf("Invalid Input Format\n");
         
         free(count);
         
@@ -96,7 +96,7 @@ int main(int argc, const char * argv[]) {
         
     
         if(nameField == NULL || strlen(nameField) > MAX_NAME_LEN) { // no username found or name length > 50
-            printf("Invalid Input Format4\n");
+            printf("Invalid Input Format\n");
             free(tmp);
             free(count);
             
