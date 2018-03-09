@@ -4,7 +4,7 @@
 
 ### rules found so far..
 * invild file
-* name field at the end (check if they remove \n, \r)
+* name field at the end (check if they remove \n & \r, mac use \r, linux use \n)
 * name field might be [name or "name"] in the csv file
 * free mem
 * ptr
