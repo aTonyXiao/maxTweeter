@@ -1,4 +1,4 @@
-# maxTweeter used for Fuzzy Testing
+# maxTweeter used for Fuzzy Testing(main.c is under maxTweeter)
 * Tony Xiao
 * Xuanyu Chen
 
